@@ -1,14 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+
 body {
   margin: 0;
   padding: 0;
   background: linear-gradient(90deg,rgba(245, 246, 247, 1) 0%, rgba(217, 229, 238, 1) 100%);
+  overflow: hidden;
 }
 
 #infographic {
   position: relative;
   width: 100%;
   min-height: 300vh;
-  border: 1px solid red;
 }
 
 h1{
@@ -19,22 +22,28 @@ h1{
   font-weight: 300;
   color: #1D1E20;
   text-transform: uppercase;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 300;
+  font-style: normal;
 }
 
 h1 span{
   font-weight: 700;
   color:#137BB7;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 700;
+  font-style: normal;
 }
 
 .map-container {
   position: sticky;
   top: 50%;
   /* transform: translateY(-50%); */
-  transform: translateY(-42%);
+  transform: translateY(-43%);
   width: 100%;
-  max-width: 54vw;
+  max-width: 45vw;
   height: auto;
-  margin: 0 auto; /* Centre horizontalement */
+  margin: 0 auto;
 }
 
 #map {
@@ -79,7 +88,7 @@ h1 span{
 
 .modal-close {
   height: auto;
-  width: 3vw;
+  width: 2.5vw;
   position: absolute;
   cursor: pointer;
   transition: transform 0.2s ease;
@@ -95,7 +104,6 @@ h1 span{
   height: auto;
 }
 
-/* Modals positioning */
 .rocket {
   top: -10%;
   right: -10%;
@@ -202,4 +210,61 @@ h1 span{
   left: 18%;
   height: auto;
   width: 10%; 
+}
+
+
+
+#circle-boat-1{
+  position: absolute;
+  bottom: 22.5%;
+  left: 19.2%;
+  z-index: 2;
+  width: 2%;
+  height: 4%;
+}
+
+#circle-boat-2{
+  position: absolute;
+  bottom: 22.5%;
+  left: 27%;
+  z-index: 2;
+  width: 2%;
+  height: 4%;
+}
+
+
+#circle-plane-1{
+  position: absolute;
+  top: -27%;
+  left: 26%;
+  z-index: 2;
+  width: 2%;
+  height: 4%;
+}
+
+#circle-plane-2{
+  position: absolute;
+  top: -5%;
+  left: 39%;
+  z-index: 2;
+  width: 2%;
+  height: 4%;
+}
+
+#circle-rocket-1{
+  position: absolute;
+  top: -7.7%;
+  right: 16.2%;
+  z-index: 0;
+  width: 2%;
+  height: 4%;
+}
+
+#circle-rocket-2{
+  position: absolute;
+  top: -7.7%;
+  right: 33%;
+  z-index: 2;
+  width: 2%;
+  height: 4%;
 }

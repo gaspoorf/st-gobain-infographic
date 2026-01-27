@@ -4,6 +4,12 @@ import Lenis from 'lenis'
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
+
+window.onbeforeunload = function () {
+  window.scrollTo(0, 0);
+}
+
+
 const lenis = new Lenis();
 
 function raf(time) {
@@ -12,25 +18,21 @@ function raf(time) {
 }
 requestAnimationFrame(raf);
 
-// Sélection des éléments
 const plane = document.getElementById('plane')
 const rocket = document.getElementById('rocket')
 const boat = document.getElementById('boat')
 
-// Sélection des modals
 const modalRocket = document.querySelector('.modal-info.rocket')
 const modalPlane = document.querySelector('.modal-info.plane')
 const modalBoat = document.querySelector('.modal-info.boat')
 const modalCar = document.querySelector('.modal-info.car')
 
-// Sélection de tous les boutons de fermeture et d'ouverture
 const closeBtns = document.querySelectorAll('.modal-close')
 const openBtnPlane = document.querySelector('.open-plane')
 const openBtnBoat = document.querySelector('.open-boat')
 const openBtnRocket = document.querySelector('.open-rocket')
 const openBtnCar = document.querySelector('.open-car')
 
-// SVG Paths
 const svgPathPlane = document.getElementById('svg-path-plane')
 const pathPlaneLength = svgPathPlane.getTotalLength()
 gsap.set(svgPathPlane, {
@@ -52,7 +54,18 @@ gsap.set(svgPathBoat, {
   strokeDashoffset: pathBoatLength
 })
 
-// Variables pour tracker si les modals ont été fermées manuellement
+const circlePlane1 = document.getElementById('circle-plane-1')
+const circlePlane2 = document.getElementById('circle-plane-2')
+const circleRocket1 = document.getElementById('circle-rocket-1')
+const circleRocket2 = document.getElementById('circle-rocket-2')
+const circleBoat1 = document.getElementById('circle-boat-1')
+const circleBoat2 = document.getElementById('circle-boat-2')
+
+gsap.set([circlePlane1, circlePlane2, circleRocket1, circleRocket2, circleBoat1, circleBoat2], {
+  opacity: 0,
+  scale: 0
+})
+
 let modalsClosedState = {
   rocket: false,
   plane: false,
@@ -60,29 +73,26 @@ let modalsClosedState = {
   car: false
 }
 
-// Variables pour tracker si les objets ont disparu
 let objectsDisappeared = {
   rocket: false,
   boat: false
 }
 
-// États initiaux
 gsap.set(plane, { opacity: 0, yPercent: -100, xPercent: -100 })
 gsap.set(rocket, { yPercent: 0 })
 gsap.set(boat, { xPercent: 0, yPercent: 0 })
 gsap.set([modalRocket, modalPlane, modalBoat, modalCar], { opacity: 0, scale: 0.8 })
 gsap.set([openBtnPlane, openBtnBoat, openBtnRocket, openBtnCar], { opacity: 0, scale: 0 })
 
-// Timeline principale avec ScrollTrigger
+
 const tl = gsap.timeline({
   scrollTrigger: {
     trigger: '#infographic',
     start: 'top top',
     end: 'bottom bottom',
-    scrub: 1,
-    markers: true,
+    scrub: 2, 
+    markers: false,
     onUpdate: (self) => {
-      // Réinitialiser tous les flags quand on revient en haut
       if (self.progress < 0.1) {
         modalsClosedState = {
           rocket: false,
@@ -94,27 +104,27 @@ const tl = gsap.timeline({
           rocket: false,
           boat: false
         }
-        // Cache tous les boutons d'ouverture
         gsap.set([openBtnPlane, openBtnBoat, openBtnRocket, openBtnCar], { opacity: 0, scale: 0 })
       }
     }
   }
 })
 
-// 1. AVION - Apparition en fade in
+
 tl.to(plane, {
   opacity: 1,
   yPercent: 0,
   xPercent: 0,
-  duration: 1
+  duration: 2, 
+  ease: 'power2.out'
 })
 
-// Modal AVION apparaît
+
 tl.to(modalPlane, {
   opacity: 1,
   scale: 1,
-  duration: 0.8,
-  ease: 'back.out(1.7)',
+  duration: 1.5,
+  ease: 'back.out(1.2)',
   onStart: () => {
     if (!modalsClosedState.plane) {
       gsap.set(modalPlane, { display: 'block' })
@@ -123,20 +133,36 @@ tl.to(modalPlane, {
   onReverseComplete: () => {
     gsap.set(modalPlane, { opacity: 0, scale: 0.8 })
   }
-}, '+=0.3')
+}, '+=0.5')
+
+
+tl.to(circlePlane1, {
+  opacity: 1,
+  scale: 1,
+  duration: 0.6, 
+  ease: 'back.out(1.2)'
+})
+
 
 tl.to(svgPathPlane, {
   strokeDashoffset: 0,
-  duration: 2,
-  ease: 'power2.inOut',
+  duration: 3, 
+  ease: 'power1.inOut',
 })
 
-// 2. FUSÉE - Modal apparaît
+
+tl.to(circlePlane2, {
+  opacity: 1,
+  scale: 1,
+  duration: 0.6,
+  ease: 'back.out(1.2)'
+})
+
 tl.to(modalRocket, {
   opacity: 1,
   scale: 1,
-  duration: 0.8,
-  ease: 'back.out(1.7)',
+  duration: 1.5,
+  ease: 'back.out(1.2)',
   onStart: () => {
     if (!modalsClosedState.rocket) {
       gsap.set(modalRocket, { display: 'block' })
@@ -145,20 +171,33 @@ tl.to(modalRocket, {
   onReverseComplete: () => {
     gsap.set(modalRocket, { opacity: 0, scale: 0.8 })
   }
-}, '+=0.5')
+}, '+=0.7')
+
+tl.to(circleRocket1, {
+  opacity: 1,
+  scale: 1,
+  duration: 0.6,
+  ease: 'back.out(1.2)'
+})
 
 tl.to(svgPathRocket, {
   strokeDashoffset: 0,
-  duration: 2,
-  ease: 'power2.inOut',
+  duration: 3,
+  ease: 'power1.inOut',
 })
 
-// 4. Modal VOITURE apparaît
+tl.to(circleRocket2, {
+  opacity: 1,
+  scale: 1,
+  duration: 0.6,
+  ease: 'back.out(1.2)'
+})
+
 tl.to(modalCar, {
   opacity: 1,
   scale: 1,
-  duration: 0.8,
-  ease: 'back.out(1.7)',
+  duration: 1.5,
+  ease: 'back.out(1.2)',
   onStart: () => {
     if (!modalsClosedState.car) {
       gsap.set(modalCar, { display: 'block' })
@@ -167,14 +206,13 @@ tl.to(modalCar, {
   onReverseComplete: () => {
     gsap.set(modalCar, { opacity: 0, scale: 0.8 })
   }
-}, '+=0.5')
+}, '+=0.7')
 
-// Modal BATEAU apparaît
 tl.to(modalBoat, {
   opacity: 1,
   scale: 1,
-  duration: 0.8,
-  ease: 'back.out(1.7)',
+  duration: 1.5,
+  ease: 'back.out(1.2)',
   onStart: () => {
     if (!modalsClosedState.boat) {
       gsap.set(modalBoat, { display: 'block' })
@@ -183,90 +221,135 @@ tl.to(modalBoat, {
   onReverseComplete: () => {
     gsap.set(modalBoat, { opacity: 0, scale: 0.8 })
   }
-}, '+=0.3')
+}, '+=0.5')
+
+tl.to(circleBoat1, {
+  opacity: 1,
+  scale: 1,
+  duration: 0.6,
+  ease: 'back.out(1.2)'
+})
 
 tl.to(svgPathBoat, {
   strokeDashoffset: 0,
-  duration: 2,
-  ease: 'power2.inOut',
+  duration: 3,
+  ease: 'power1.inOut',
+})
+
+tl.to(circleBoat2, {
+  opacity: 1,
+  scale: 1,
+  duration: 0.6,
+  ease: 'back.out(1.2)'
+})
+
+tl.to(circleRocket2, {
+  opacity: 0,
+  scale: 0,
+  duration: 0.6,
+  ease: 'power1.in'
 })
 
 tl.to(svgPathRocket, {
   strokeDashoffset: pathRocketLength,
-  duration: 2,
-  ease: 'power2.inOut',
+  duration: 3,
+  ease: 'power1.inOut',
 })
 
-// Fusée décolle - marque l'objet comme disparu
+tl.to(circleRocket1, {
+  opacity: 0,
+  scale: 0,
+  duration: 0.6,
+  ease: 'power1.in'
+})
+
 tl.to(rocket, {
   opacity: 0,
   yPercent: -100,
-  duration: 1,
+  duration: 2,
+  ease: 'power1.in',
   onStart: () => {
     objectsDisappeared.rocket = true
   },
   onReverseComplete: () => {
     objectsDisappeared.rocket = false
   }
-}, '+=0.5')
+}, '+=0.7')
+
+tl.to(circleBoat2, {
+  opacity: 0,
+  scale: 0,
+  duration: 0.6,
+  ease: 'power1.in'
+})
 
 tl.to(svgPathBoat, {
   strokeDashoffset: pathBoatLength,
-  duration: 2,
-  ease: 'power2.inOut',
+  duration: 3,
+  ease: 'power1.inOut',
 })
 
-// 3. BATEAU - disparaît du port - marque l'objet comme disparu
+tl.to(circleBoat1, {
+  opacity: 0,
+  scale: 0,
+  duration: 0.6,
+  ease: 'power1.in'
+})
+
 tl.to(boat, {
   opacity: 0,
   yPercent: 50,
-  xPercent: -180,
-  duration: 1.5,
+  xPercent: -140,
+  duration: 2.5,
+  ease: 'power1.in',
   onStart: () => {
     objectsDisappeared.boat = true
   },
   onReverseComplete: () => {
     objectsDisappeared.boat = false
   }
-}, '+=0.3')
+}, '+=0.5')
 
-// INTERACTION : Fermeture des modals au clic
 closeBtns.forEach((btn) => {
   btn.addEventListener('click', (e) => {
-    // Trouve la modal parente
     const modal = e.target.closest('.modal-info')
     
-    // Détermine quelle modal fermer, quel bouton afficher et quel SVG path cacher
     let modalType = ''
     let openBtn = null
     let svgPath = null
     let pathLength = 0
+    let circle1 = null
+    let circle2 = null
     
     if (modal.classList.contains('rocket')) {
       modalType = 'rocket'
       openBtn = openBtnRocket
       svgPath = svgPathRocket
       pathLength = pathRocketLength
+      circle1 = circleRocket1
+      circle2 = circleRocket2
     } else if (modal.classList.contains('plane')) {
       modalType = 'plane'
       openBtn = openBtnPlane
       svgPath = svgPathPlane
       pathLength = pathPlaneLength
+      circle1 = circlePlane1
+      circle2 = circlePlane2
     } else if (modal.classList.contains('boat')) {
       modalType = 'boat'
       openBtn = openBtnBoat
       svgPath = svgPathBoat
       pathLength = pathBoatLength
+      circle1 = circleBoat1
+      circle2 = circleBoat2
     } else if (modal.classList.contains('car')) {
       modalType = 'car'
       openBtn = openBtnCar
       svgPath = null
     }
     
-    // Met à jour le state
     modalsClosedState[modalType] = true
     
-    // Anime la fermeture de la modal
     gsap.to(modal, {
       opacity: 0,
       scale: 0.8,
@@ -274,7 +357,6 @@ closeBtns.forEach((btn) => {
       ease: 'power2.in',
       onComplete: () => {
         gsap.set(modal, { display: 'none' })
-        // Affiche le bouton d'ouverture
         gsap.to(openBtn, {
           opacity: 1,
           scale: 1,
@@ -284,35 +366,47 @@ closeBtns.forEach((btn) => {
       }
     })
     
-    // Fait disparaître le SVG path si il existe
     if (svgPath) {
+      gsap.to(circle2, {
+        opacity: 0,
+        scale: 0,
+        duration: 0.3,
+        ease: 'power2.in'
+      })
+      
       gsap.to(svgPath, {
         strokeDashoffset: pathLength,
         duration: 0.4,
-        ease: 'power2.in'
+        ease: 'power2.in',
+        delay: 0.1
+      })
+      
+      gsap.to(circle1, {
+        opacity: 0,
+        scale: 0,
+        duration: 0.3,
+        ease: 'power2.in',
+        delay: 0.3
       })
     }
   })
 })
 
-// INTERACTION : Ouverture des modals au clic sur les boutons open
 const openButtons = [
-  { btn: openBtnPlane, modal: modalPlane, type: 'plane', svgPath: svgPathPlane },
-  { btn: openBtnBoat, modal: modalBoat, type: 'boat', svgPath: svgPathBoat },
-  { btn: openBtnRocket, modal: modalRocket, type: 'rocket', svgPath: svgPathRocket },
-  { btn: openBtnCar, modal: modalCar, type: 'car', svgPath: null }
+  { btn: openBtnPlane, modal: modalPlane, type: 'plane', svgPath: svgPathPlane, circle1: circlePlane1, circle2: circlePlane2 },
+  { btn: openBtnBoat, modal: modalBoat, type: 'boat', svgPath: svgPathBoat, circle1: circleBoat1, circle2: circleBoat2 },
+  { btn: openBtnRocket, modal: modalRocket, type: 'rocket', svgPath: svgPathRocket, circle1: circleRocket1, circle2: circleRocket2 },
+  { btn: openBtnCar, modal: modalCar, type: 'car', svgPath: null, circle1: null, circle2: null }
 ]
 
-openButtons.forEach(({ btn, modal, type, svgPath }) => {
+openButtons.forEach(({ btn, modal, type, svgPath, circle1, circle2 }) => {
   btn.addEventListener('click', () => {
-    // Cache le bouton d'ouverture
     gsap.to(btn, {
       opacity: 0,
       scale: 0,
       duration: 0.3,
       ease: 'power2.in',
       onComplete: () => {
-        // Affiche la modal
         gsap.set(modal, { display: 'block' })
         gsap.to(modal, {
           opacity: 1,
@@ -321,16 +415,30 @@ openButtons.forEach(({ btn, modal, type, svgPath }) => {
           ease: 'back.out(1.7)'
         })
         
-        // Redessine le SVG path SEULEMENT si l'objet n'a pas disparu
         if (svgPath && !objectsDisappeared[type]) {
+          gsap.to(circle1, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.3,
+            ease: 'back.out(1.7)'
+          })
+          
           gsap.to(svgPath, {
             strokeDashoffset: 0,
             duration: 0.5,
-            ease: 'power2.out'
+            ease: 'power2.out',
+            delay: 0.2
+          })
+          
+          gsap.to(circle2, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.3,
+            ease: 'back.out(1.7)',
+            delay: 0.5
           })
         }
         
-        // Réinitialise le state
         modalsClosedState[type] = false
       }
     })
