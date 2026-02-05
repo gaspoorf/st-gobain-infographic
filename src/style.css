@@ -87,8 +87,8 @@ body {
 } 
 
 .rocket .modal-close {
-  top: -12%;
-  left: -10%;
+  top: -10%;
+  left: -8%;
 }
 
 .plane {
@@ -98,8 +98,8 @@ body {
 }
 
 .plane .modal-close {
-  top: -11%;
-  left: -8%;
+  top: -10%;
+  left: -7%;
 }
 
 .boat {
@@ -120,8 +120,8 @@ body {
 }
 
 .car .modal-close {
-  top: -13%;
-  left: -8%;
+  top: -8%;
+  left: -6%;
 }
 
 
